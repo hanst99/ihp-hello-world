@@ -8,7 +8,7 @@ import Web.View.Posts.Show
 
 instance Controller PostsController where
     action PostsAction = do
-        posts <- query @Post |> fetch
+        posts <- query @Post |> orderByDesc #createdAt |> fetch
         render IndexView { .. }
 
     action NewPostAction = do
@@ -53,3 +53,4 @@ instance Controller PostsController where
 
 buildPost post = post
     |> fill @["title","body"]
+    |> validateField #title nonEmpty
